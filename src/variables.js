@@ -1,28 +1,21 @@
+import color from 'Color'
 
-//- ------------------------------
-//- Variables
-//- ------------------------------
+var vars = {}
 
-// Base Colors
-$baseColor              : #282828
-$bgColor                : #ffffff
-$colors                 : (#f16a74, #02d2f5, #89e894, #F16AEB, #F1A96A, #F1E16A, #7C6AF1)
-$accentColor            : nth($colors, 1)
+vars.baseColor = '#282828'
+vars.bgColor = '#ffffff'
+vars.accentColor = ''
 
-// Base Fonts
-$baseFontSize           : 16px
-$baseLineHeight         : 200%
-$baseFontFamily         : 'Varela Round', Helvetica, Arial, sans-serif
-$secondaryFontFamily    : Helvetica, Arial, sans-serif
-$iconFontFamily         : 'icon'
+vars.bodyBgColor = color(vars.baseColor).darken(0.25).hexString()
+vars.borderColor = color(vars.bgColor).lighten(0.9).hexString()
 
-// Copy Max Width
-$copyMaxWidth           : 700px
+vars.bgSelectionColor = color(vars.baseColor).lighten(0.15).hexString()
+vars.selectionColor = vars.bgColor
 
-// Accent Colors
-$bodyBgColor            : darken($baseColor, 25%)
-$borderColor            : lighten($baseColor, 90%)
+vars.baseFontSize = 16
+vars.baseLineHeight = '180%'
+vars.baseFontFamily = 'Helvetica, Arial, sans-serif'
+vars.iconFontFamily = 'icon'
+vars.copyMaxWidth = 700
 
-// Selection Colors
-$selectionColor         : $bgColor
-$bgSelectionColor       : lighten($baseColor, 15%)
+export default vars

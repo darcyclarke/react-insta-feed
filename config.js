@@ -4,8 +4,14 @@
 
 const SOURCE = './src/'
 const DESTINATION = './build/'
+const INSTAGRAM = {
+  client: '34cd2bb12b194d43984f8d230097d64e',
+  api: 'https://api.instagram.com/v1/',
+  auth: () => `${this.api}oauth/authorize/?client_id=${this.client}&response_type=token`
+}
 
 module.exports = {
+  instagram: INSTAGRAM,
   server: {
     port: process.env.PORT || 4000,
     ip: process.env.IP || '0.0.0.0'
