@@ -1,16 +1,11 @@
-import { GraphQLSchema as Schema, GraphQLObjectType as ObjectType} from 'graphql'
-
-import me from './queries/me'
+import { GraphQLSchema as Schema, GraphQLObjectType as ObjectType } from 'graphql'
 import content from './queries/content'
-import news from './queries/news'
+import images from './queries/images'
 
 const schema = new Schema({
   query: new ObjectType({
     name: 'Query',
-    fields: {
-      me,
-      content,
-    news}
+    fields: { content, images}
   })
 })
 

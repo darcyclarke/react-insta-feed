@@ -10,32 +10,23 @@ import copy from './copy'
 
 const DEBUG = !process.argv.includes('--release')
 
-/**
- * Launches a development web server with "live reload" functionality -
- * synchronizing URLs, interactions and code changes across multiple devices.
- */
-async function start() {
+async function start () {
   await run(clean)
   await run(copy.bind(undefined, { watch: true }))
   await new Promise(resolve => {
-    // Patch the client-side bundle configurations
-    // to enable Hot Module Replacement (HMR) and React Transform
     webpackConfig.filter(x => x.target !== 'node').forEach(config => {
       if (Array.isArray(config.entry)) {
         config.entry.unshift('webpack-hot-middleware/client')
       } else {
         config.entry = ['webpack-hot-middleware/client', config.entry]
       }
-
-      config.plugins.push(new webpack.HotModuleReplacementPlugin());
-      config.plugins.push(new webpack.NoErrorsPlugin());
+      config.plugins.push(new webpack.HotModuleReplacementPlugin())
+      config.plugins.push(new webpack.NoErrorsPlugin())
       config
         .module
         .loaders
         .filter(x => x.loader === 'babel-loader')
         .forEach(x => (x.query = {
-          // Wraps all React components into arbitrary transforms
-          // https://github.com/gaearon/babel-plugin-react-transform
           plugins: [
             ['react-transform', {
               transforms: [
@@ -51,50 +42,36 @@ async function start() {
             },
             ],
           ],
-        }));
-    });
+        }))
+    })
 
     const bundler = webpack(webpackConfig);
     const wpMiddleware = webpackMiddleware(bundler, {
-
-      // IMPORTANT: webpack middleware can't access config,
-      // so we should provide publicPath by ourselves
       publicPath: webpackConfig[0].output.publicPath,
-
-      // Pretty colored output
       stats: webpackConfig[0].stats,
-
-      // For other settings see
-      // https://webpack.github.io/docs/webpack-dev-middleware
-    });
+    })
     const hotMiddlewares = bundler
       .compilers
       .filter(compiler => compiler.options.target !== 'node')
-      .map(compiler => webpackHotMiddleware(compiler));
-
+      .map(compiler => webpackHotMiddleware(compiler))
     let handleServerBundleComplete = () => {
       runServer((err, host) => {
         if (!err) {
           const bs = Browsersync.create();
           bs.init({
             ...(DEBUG ? {} : { notify: false, ui: false }),
-
             proxy: {
               target: host,
               middleware: [wpMiddleware, ...hotMiddlewares],
             },
-
-            // no need to watch '*.js' here, webpack will take care of it for us,
-            // including full page reloads if HMR won't work
             files: ['build/content/**/*.*'],
           }, resolve);
-          handleServerBundleComplete = runServer;
+          handleServerBundleComplete = runServer
         }
-      });
-    };
-
-    bundler.plugin('done', () => handleServerBundleComplete());
-  });
+      })
+    }
+    bundler.plugin('done', () => handleServerBundleComplete())
+  })
 }
 
-export default start;
+export default start

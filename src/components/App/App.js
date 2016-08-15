@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import emptyFunction from 'fbjs/lib/emptyFunction'
 import s from './App.scss'
+import r from 'r-dom'
 
 class App extends Component {
 
@@ -9,17 +10,17 @@ class App extends Component {
       insertCss: PropTypes.func,
       onSetTitle: PropTypes.func,
       onSetMeta: PropTypes.func,
-      onPageNotFound: PropTypes.func,
+      onPageNotFound: PropTypes.func
     }),
     children: PropTypes.element.isRequired,
-    error: PropTypes.object,
+    error: PropTypes.object
   }
 
   static childContextTypes = {
     insertCss: PropTypes.func.isRequired,
     onSetTitle: PropTypes.func.isRequired,
     onSetMeta: PropTypes.func.isRequired,
-    onPageNotFound: PropTypes.func.isRequired,
+    onPageNotFound: PropTypes.func.isRequired
   }
 
   getChildContext() {
@@ -28,7 +29,7 @@ class App extends Component {
       insertCss: context.insertCss || emptyFunction,
       onSetTitle: context.onSetTitle || emptyFunction,
       onSetMeta: context.onSetMeta || emptyFunction,
-      onPageNotFound: context.onPageNotFound || emptyFunction,
+      onPageNotFound: context.onPageNotFound || emptyFunction
     }
   }
 
@@ -42,14 +43,7 @@ class App extends Component {
   }
 
   render() {
-    return !this.props.error ? (
-      <div>
-        <Header />
-        {this.props.children}
-        <Feedback />
-        <Footer />
-      </div>
-    ) : this.props.children
+    return r.div()
   }
 }
 
