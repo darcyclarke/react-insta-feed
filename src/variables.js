@@ -12,8 +12,9 @@ $accentColor            : nth($colors, 1)
 // Base Fonts
 $baseFontSize           : 16px
 $baseLineHeight         : 200%
-$baseFontFamily         : Helvetica, Arial, sans-serif
+$baseFontFamily         : 'Varela Round', Helvetica, Arial, sans-serif
 $secondaryFontFamily    : Helvetica, Arial, sans-serif
+$iconFontFamily         : 'icon'
 
 // Copy Max Width
 $copyMaxWidth           : 700px
