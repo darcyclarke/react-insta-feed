@@ -44,4 +44,4 @@ $ npm start -- --release                 # Launch dev server in production mode
 
 * `webpack.config.js` - Webpack configuration for both client-side and server-side bundles
 * `run.js` - Helps to launch other scripts with `babel-node` (e.g. `babel-node tools/run build`)
-* `.eslintrc` - ESLint overrides for built automation scripts
+* `standard` - https://github.com/feross/standard

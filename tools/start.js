@@ -1,41 +1,30 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
+import Browsersync from 'browser-sync'
+import webpack from 'webpack'
+import webpackMiddleware from 'webpack-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import run from './run'
+import runServer from './runServer'
+import webpackConfig from './webpack.config'
+import clean from './clean'
+import copy from './copy'
 
-import Browsersync from 'browser-sync';
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import run from './run';
-import runServer from './runServer';
-import webpackConfig from './webpack.config';
-import clean from './clean';
-import copy from './copy';
-
-const DEBUG = !process.argv.includes('--release');
+const DEBUG = !process.argv.includes('--release')
 
 /**
  * Launches a development web server with "live reload" functionality -
  * synchronizing URLs, interactions and code changes across multiple devices.
  */
 async function start() {
-  await run(clean);
-  await run(copy.bind(undefined, { watch: true }));
+  await run(clean)
+  await run(copy.bind(undefined, { watch: true }))
   await new Promise(resolve => {
     // Patch the client-side bundle configurations
     // to enable Hot Module Replacement (HMR) and React Transform
     webpackConfig.filter(x => x.target !== 'node').forEach(config => {
       if (Array.isArray(config.entry)) {
-        config.entry.unshift('webpack-hot-middleware/client');
+        config.entry.unshift('webpack-hot-middleware/client')
       } else {
-        /* eslint-disable no-param-reassign */
-        config.entry = ['webpack-hot-middleware/client', config.entry];
-        /* eslint-enable no-param-reassign */
+        config.entry = ['webpack-hot-middleware/client', config.entry]
       }
 
       config.plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -44,7 +33,7 @@ async function start() {
         .module
         .loaders
         .filter(x => x.loader === 'babel-loader')
-        .forEach(x => (x.query = { // eslint-disable-line no-param-reassign
+        .forEach(x => (x.query = {
           // Wraps all React components into arbitrary transforms
           // https://github.com/gaearon/babel-plugin-react-transform
           plugins: [
